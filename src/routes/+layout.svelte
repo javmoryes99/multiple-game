@@ -6,6 +6,8 @@
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
 
+	import { getNumberAndMultiples } from '$lib/functions/numberCalculation';
+
 	let { children } = $props();
 </script>
 
@@ -19,3 +21,6 @@
 		>{locale}</a>
 	{/each}
 </div>
+<button onclick={getNumberAndMultiples}>
+	Clicka
+</button>
