@@ -7,20 +7,12 @@
 	import favicon from '$lib/assets/favicon.svg';
 
 	import { getNumberAndMultiples } from '$lib/functions/numberCalculation';
+	import Header from '$lib/components/layout/Header.svelte';
 
 	let { children } = $props();
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
-{@render children()}
+<svelte:head><link rel="icon" href={favicon} /><title>Diviguessr</title></svelte:head>
 
-<div style="display:none">
-	{#each locales as locale (locale)}
-		<a
-			href={resolve(localizeHref(page.url.pathname, { locale }) as Pathname)}
-		>{locale}</a>
-	{/each}
-</div>
-<button onclick={getNumberAndMultiples}>
-	Clicka
-</button>
+<Header />
+{@render children()}
