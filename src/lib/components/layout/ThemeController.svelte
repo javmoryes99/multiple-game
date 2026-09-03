@@ -9,7 +9,7 @@
 	}
 </script>
 
-<label class="swap swap-rotate">
+<label class="swap swap-rotate text-neutral-content">
 	<input type="checkbox" checked={theme === 'dark'} onchange={toggleTheme} />
 	<LightModeRoundedIcon class="h-8 w-8 swap-off" />
 	<DarkModeRoundedIcon class="h-8 w-8 swap-on" />
