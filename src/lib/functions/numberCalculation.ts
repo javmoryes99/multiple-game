@@ -1,50 +1,43 @@
 const MIN_VALUE: number = 100;
 const MAX_VALUE: number = 999;
-const ALLOWED_MULTIPLES: number[] = [3, 4, 5, 6, 7, 11];
+const ALLOWED_divisors: number[] = [3, 4, 5, 6, 7, 11];
 
-const getNumberAndMultiples = () => {
+const getNumberAndDivisors = () => {
 	try {
 		var number = -1;
-		let multiples: number[] = [];
-		let notMultiples: number[] = [];
+		let divisors: number[] = [];
+		let notDivisors: number[] = [];
 		let choices: number[] = [];
 
-		// Iteration until a suitable number (has multiples but not most of them) is generated
+		// Iteration until a suitable number (has divisors but not most of them) is generated
 		do {
-			multiples = [];
-			notMultiples = [];
+			divisors = [];
+			notDivisors = [];
 
 			number = Math.round(Math.random() * (MAX_VALUE - MIN_VALUE) + MIN_VALUE);
-			console.log('Número generado: ', number);
 
 			// Select a random valid multiple as answer
-			console.log(ALLOWED_MULTIPLES);
-			for (const possibleMultiple of ALLOWED_MULTIPLES) {
+			for (const possibleMultiple of ALLOWED_divisors) {
 				if (number % possibleMultiple === 0) {
-					multiples.push(possibleMultiple);
+					divisors.push(possibleMultiple);
 				} else {
-					notMultiples.push(possibleMultiple);
+					notDivisors.push(possibleMultiple);
 				}
 			}
 
-			console.log('Condiciones: ', multiples.length === 0, notMultiples.length < 2);
-			if (multiples.length === 0 || notMultiples.length < 2) {
-				console.log('Entra en if');
+			if (divisors.length === 0 || notDivisors.length < 2) {
 				number = -1;
 			}
 		} while (number === -1);
 
-		// We add one multiple and two notMultiples to the choices
-		let indexMultiples = Math.round(Math.random() * (multiples.length - 1));
-		let randomMultiplesPosition = multiples[indexMultiples];
-		console.log("Multiple position: ", indexMultiples)
-		choices.push(randomMultiplesPosition);
+		let indexDivisors = Math.round(Math.random() * (divisors.length - 1));
+		let randomdivisorsPosition = divisors[indexDivisors];
+		choices.push(randomdivisorsPosition);
+
 		while (choices.length < 3) {
-			let indexNotMultiples = Math.round(Math.random() * (notMultiples.length - 1));
-			let randomNotMultiplesPosition = notMultiples[indexNotMultiples];
-			console.log("Not Multiple position: ", indexNotMultiples)
-			const randomChoice = randomNotMultiplesPosition;
-			console.log(randomChoice)
+			let indexnotDivisors = Math.round(Math.random() * (notDivisors.length - 1));
+			let randomnotDivisorsPosition = notDivisors[indexnotDivisors];
+			const randomChoice = randomnotDivisorsPosition;
 
 			if (choices.length === 0 || !choices.includes(randomChoice)) {
 				choices.push(randomChoice);
@@ -52,10 +45,10 @@ const getNumberAndMultiples = () => {
 		}
 
 		choices.sort(() => Math.random() - 0.5);
-		console.log('Números aleatorios generados: ', number, multiples, notMultiples, choices);
+		return { number, choices };
 	} catch (error) {
 		console.log('Error: ', error);
 	}
 };
 
-export { getNumberAndMultiples };
+export { getNumberAndDivisors };
