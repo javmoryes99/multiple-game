@@ -9,7 +9,7 @@
     <div class="navbar-start">
       <button class="btn btn-ghost text-xl text-neutral-content border-none hover:bg-transparent hover:opacity-100">
         <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="" class="h-8 w-auto" />
-        <span>Diviguessr</span>
+        <span>Dividi2</span>
       </button>
     </div>
     <div class="navbar-center hidden lg:flex">
