@@ -1,54 +1,70 @@
-const MIN_VALUE: number = 100;
-const MAX_VALUE: number = 999;
-const ALLOWED_divisors: number[] = [3, 4, 5, 6, 7, 11];
+const MIN_VALUE = 100;
+const MAX_VALUE = 999;
+const ALLOWED_DIVISORS: number[] = [3, 4, 5, 6, 7, 11];
 
-const getNumberAndDivisors = () => {
-	try {
-		var number = -1;
-		let divisors: number[] = [];
-		let notDivisors: number[] = [];
-		let choices: number[] = [];
+export class NumberAndDivisors {
+    readonly number: number;
+    readonly choices: number[];
 
-		// Iteration until a suitable number (has divisors but not most of them) is generated
-		do {
-			divisors = [];
-			notDivisors = [];
+    constructor(number: number, choices: number[]) {
+        this.number = number;
+        this.choices = choices;
+    }
 
-			number = Math.round(Math.random() * (MAX_VALUE - MIN_VALUE) + MIN_VALUE);
+    isCorrect(choice: number): boolean {
+        return this.number % choice === 0;
+    }
+}
 
-			// Select a random valid multiple as answer
-			for (const possibleMultiple of ALLOWED_divisors) {
-				if (number % possibleMultiple === 0) {
-					divisors.push(possibleMultiple);
-				} else {
-					notDivisors.push(possibleMultiple);
-				}
-			}
+function pickRandom<T>(arr: T[]): T {
+    const index = Math.floor(Math.random() * arr.length);
+    const value = arr[index];
+    if (value === undefined) {
+        throw new Error('pickRandom: array vacío');
+    }
+    return value;
+}
 
-			if (divisors.length === 0 || notDivisors.length < 2) {
-				number = -1;
-			}
-		} while (number === -1);
+function generateNumberWithDivisors(): { number: number; divisors: number[]; notDivisors: number[] } {
+    let number = -1;
+    let divisors: number[] = [];
+    let notDivisors: number[] = [];
 
-		let indexDivisors = Math.round(Math.random() * (divisors.length - 1));
-		let randomdivisorsPosition = divisors[indexDivisors];
-		choices.push(randomdivisorsPosition);
+    do {
+        divisors = [];
+        notDivisors = [];
 
-		while (choices.length < 3) {
-			let indexnotDivisors = Math.round(Math.random() * (notDivisors.length - 1));
-			let randomnotDivisorsPosition = notDivisors[indexnotDivisors];
-			const randomChoice = randomnotDivisorsPosition;
+        number = Math.round(Math.random() * (MAX_VALUE - MIN_VALUE) + MIN_VALUE);
 
-			if (choices.length === 0 || !choices.includes(randomChoice)) {
-				choices.push(randomChoice);
-			}
-		}
+        for (const possibleMultiple of ALLOWED_DIVISORS) {
+            if (number % possibleMultiple === 0) {
+                divisors.push(possibleMultiple);
+            } else {
+                notDivisors.push(possibleMultiple);
+            }
+        }
 
-		choices.sort(() => Math.random() - 0.5);
-		return { number, choices };
-	} catch (error) {
-		console.log('Error: ', error);
-	}
-};
+        if (divisors.length === 0 || notDivisors.length < 2) {
+            number = -1;
+        }
+    } while (number === -1);
 
-export { getNumberAndDivisors };
+    return { number, divisors, notDivisors };
+}
+
+export function getNumberAndDivisors(): NumberAndDivisors {
+    const { number, divisors, notDivisors } = generateNumberWithDivisors();
+
+    const choices: number[] = [pickRandom(divisors)];
+
+    while (choices.length < 3) {
+        const candidate = pickRandom(notDivisors);
+        if (!choices.includes(candidate)) {
+            choices.push(candidate);
+        }
+    }
+
+    choices.sort(() => Math.random() - 0.5);
+
+    return new NumberAndDivisors(number, choices);
+}
